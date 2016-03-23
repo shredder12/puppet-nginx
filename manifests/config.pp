@@ -71,6 +71,7 @@ class nginx::config(
   $keepalive_requests             = '100',
   $log_format                     = {},
   $mail                           = false,
+  $stream                         = false,
   $multi_accept                   = 'off',
   $names_hash_bucket_size         = '64',
   $names_hash_max_size            = '512',
@@ -186,6 +187,16 @@ class nginx::config(
 
   file { $conf_dir:
     ensure => directory,
+  }
+
+  file { "${conf_dir}/conf.stream.d":
+    ensure => directory,
+  }
+  if $confd_purge == true {
+    File["${conf_dir}/conf.stream.d"] {
+      purge   => true,
+      recurse => true,
+    }
   }
 
   file { "${conf_dir}/conf.d":
