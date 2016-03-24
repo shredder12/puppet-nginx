@@ -199,6 +199,26 @@ class nginx::config(
     }
   }
 
+  file { "${conf_dir}/streams-available":
+    ensure => directory,
+  }
+  if $confd_purge == true {
+    File["${conf_dir}/streams-available"] {
+      purge   => true,
+      recurse => true,
+    }
+  }
+
+  file { "${conf_dir}/streams-enabled":
+    ensure => directory,
+  }
+  if $confd_purge == true {
+    File["${conf_dir}/streams-enabled"] {
+      purge   => true,
+      recurse => true,
+    }
+  }
+
   file { "${conf_dir}/conf.d":
     ensure => directory,
   }
